@@ -7,14 +7,15 @@ interface Person {
   skill: string;
 }
 
-let Person: React.FC<{ persons: Person[] }> = (props) => {
-  const personList = props.persons.map((person) => (
-    <h2>
-      I am {person.name}, I am {person.age}. I know {person.skill}
-    </h2>
-  ));
-
-  return <div>{personList}</div>;
+let Person: React.FC<{ person: Person }> = (props) => {
+  return (
+    <div>
+      <h1>
+        I am {props.person.name}, I am {props.person.age} years old and I have
+        the skill of {props.person.skill}
+      </h1>
+    </div>
+  );
 };
 
 export default Person;

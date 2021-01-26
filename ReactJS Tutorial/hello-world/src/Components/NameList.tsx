@@ -31,6 +31,10 @@ let NameList = () => {
   //     </h2>
   //   ));
 
+  const personList = persons.map((person) => (
+    <Person person={person} key={person.id} />
+  ));
+
   return (
     <div>
       {/* {names.map((name) => (
@@ -38,7 +42,7 @@ let NameList = () => {
       ))} */}
 
       {/* {personList} */}
-      <Person persons={persons} />
+      {persons}
     </div>
   );
 };

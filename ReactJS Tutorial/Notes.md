@@ -849,3 +849,20 @@ export default Person;
 ```
 
 * This also shows a warning, where each element in the array needs a unique key prop **THIS NEEDS TO BE DONE OTHERWISE IT WILL HAVE WEIRD CHARACTERISTICS**
+
+## 18. List & Keys
+
+* In this video we will be talking about Lists & Keys in React
+* In the last video, we saw when we render a list of items, react throws a warning in the console
+* Each child in an array or iterator should have a unique "key" prop
+* If we add value={person.id} we will see that we have no errors with our browser
+
+* The key prop value not be ID all the time, it can be the name, it can be anything as long as it is unique within the list
+* An important point to keep in mind is that they are not accessable within the key components
+  * If we try to destructure the key prop, it is not defined. Key is not a prop
+  * If you need to access it try to parse it as a different prop
+
+* A "key" is a special string attribute you need when creating a list of elements
+* Key give the element a stable identity
+* Keys help React identify which items have changed, are added or removed
+* Helps in efficient updates of user interfaces
