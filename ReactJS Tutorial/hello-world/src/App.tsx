@@ -15,6 +15,8 @@ import ClassClick from "./Components/ClassClick";
 
 import ReactBind from "./Components/ReactBind";
 import ParentComponent from "./Components/ParentComponent";
+import UserGreeting from "./Components/UserGreeting";
+import NameList from "./Components/NameList";
 
 function App() {
   return (
@@ -34,7 +36,11 @@ function App() {
       {/* Tutorial 13 */}
 
       {/* <ReactBind /> */}
-      <ParentComponent />
+
+      {/* <ParentComponent /> 15 */}
+
+      {/* <UserGreeting /> 16 */}
+      <NameList />
     </div>
   );
 }

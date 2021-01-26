@@ -698,3 +698,154 @@ greetParent(childName) {
   console.log(`Hello ${childName}`);
 }
 ```
+
+## 16. Conditional Rendering
+
+* When we are building react applications we often may need to show or hide html based on a certian conditons
+* Thankfully they work similar to how they do in JavaScript
+* There are 4 ways of doing this:
+  * If/else
+  * Element variables
+  * Tenary conditional operators
+  * Short circuit operators
+
+### If/Else Approach
+
+* First we will make a new file called `UserGreeting.tsx`
+* Within the file we will make a class component
+
+```tsx
+  if (this.state.isLoggedIn) {
+      return <div>Welcome Shaan</div>;
+    } else {
+      return <div>Welcome Guest</div>;
+    }
+```
+
+* If-else statements don't work within JSX, JSX is syntaxtic sugar which allows function calls and object construction
+
+### Element Variables
+
+* In this approach we use javascript variables to store elements
+* This assists in us being able to conditionally render part of the element or the entire element
+
+```tsx
+
+    let message;
+
+    if(this.state.isLoggedIn) {
+        message = <div>Welcome Shaan</div>
+    }
+    else {
+        message = <div>Welcome Guest</div>
+    }
+
+    return (<div>{message}</div>);
+```
+
+* Message stores the element to be rendered
+* This looks much better however tenary operators are much more simpler
+
+### Tenary Operators
+
+* The tenary operator is great as it can be used within the TSX
+
+```tsx
+    return(
+        this.state.isLoggedIn ? (<div>Welcome Shaan</div>) : (<div>Welcome Guest</div>)
+    );
+```
+
+### Short Circuit Operator Approach
+
+* This is a specific case of the tenary operator approach
+* This is done if we want to render something or nothing at all
+
+```tsx
+    return (
+        this.state.isLoggedIn && (<div>Welcome Shaan</div>);
+    );
+```
+
+* If the left side is true, it also evaluates the right hand side which is the JSX
+* However if the left hand side evaluates to false the right hand side wont be evaluated either
+
+## 17. List Rendering
+
+* When you build web-application a common application is displaying a list of items
+* What we want to do is repeat a bunch of HTML for a list
+* One of the best thing about react, is that it relies heavily on the typescript library itself to represent data
+* The best way to do this is with the `.map` method which will remap it to another array to return
+  * The `map()` method creates a new array with the results of calling a previous function with the new array
+```ts
+var array1 = [1, 4, 9, 16];
+const map1 = array1.map(x => x*2);
+
+console.log(map1);
+// Expected output: Array [2, 8, 18, 32]
+```
+
+* This is pretty much the knowledge of list rendering in react, but instead of multiplication we do JSX
+* We do this by using the map method inside of the jsx
+
+```tsx
+ <div>
+      {names.map((name) => (
+        <h1>{name}</h1>
+      ))}
+    </div>
+  ```
+
+* We can also simplify it by doing the render outside of it and then only printing out the nameList in the TSX
+
+```tsx
+const names = [...];
+
+const nameList = names.map(name => <h2>{name}</h2>)
+return <div>{nameList}</div>
+```
+
+* Typically we may have a list of objects, with a few properties that have to be rendered
+  * In such cases its probably best to refactor the JSX into seperate components and then use the component in the map render TSX
+
+* I.e replacing names array with array of person, with id, name, age and skill
+
+```tsx
+  const personList = persons.map((person) => (
+    <h2>
+      I am {person.name}, I am {person.age}. I know {person.skill}
+    </h2>
+  ));
+```
+
+* Whilst this does work, the prefered way is to make this a seperate component
+
+### Making this a seperate component
+
+* Make a new file called `Person.tsx`
+* We pass the data down via props via the list
+
+```tsx
+import React from "react";
+
+interface Person {
+  id: number;
+  name: string;
+  age: number;
+  skill: string;
+}
+
+let Person: React.FC<{ persons: Person[] }> = (props) => {
+  const personList = props.persons.map((person) => (
+    <h2>
+      I am {person.name}, I am {person.age}. I know {person.skill}
+    </h2>
+  ));
+
+  return <div>{personList}</div>;
+};
+
+export default Person;
+```
+
+* This also shows a warning, where each element in the array needs a unique key prop **THIS NEEDS TO BE DONE OTHERWISE IT WILL HAVE WEIRD CHARACTERISTICS**
