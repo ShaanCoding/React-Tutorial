@@ -366,3 +366,135 @@ export default Welcome
 * Basically to access the props component on a class component we need to use the `this` keyword
 
 * There is one significant thing about props however, **props are immutable i.e they cannot be changed again, they cannot be changed they are read only**
+
+## 10. State
+
+* In this video we will be talking about component state in react
+* As we have seen all components return TSX which renders the user interface
+* We have seen we can influence what gets rendered via props
+* Additionally there is a second way to render things which is via the state of the component
+
+### Props vs State
+
+![picture 1](../images/b1fbe7baabe109dae14eaf62749e9eeb2d1d5e760d32f32a2372e75b75a2a84b.png)  
+
+* Props get passed to the component
+* Similar to function parameters
+* Props are immutable and therefore are read only
+* props can be accessed via the props parameter
+```tsx
+props - Functional components
+this.props - Class components
+```
+
+* State is managed within the component
+* Similar to variables declared in the function body
+```tsx
+useState // Hook - functional components
+this.state // Class components
+```
+
+### State Example
+
+* We will start by making a new class component called `message.tsx`
+* We need to make a new requirement, which is add a subscribe button underneath the text, and once the button is pressed we need to change the text from `Welcome visitor` to `Thank you for subscribing`
+* We can't set it via props as it is immutable
+* As such the solution is to use component states
+
+* The first step is to create a state object and initalize it, this is normally done within the classes constructor
+  * We call the super method, because we extend the react component class and we need to call the base class constructor
+  * We then access the `this.state` object and initalize the property
+  * Now we need to bind this state value to the render function
+  * Now lets create a button which onclick will change the message
+  * We now make a function that uses the `this.setState` method to then update the message string isnide of the state object.
+
+```tsx
+import React, { Component } from "react";
+
+class Message extends Component {
+  state = {
+    message: "Welcome Visitor!",
+  };
+
+  changeMessage() {
+    this.setState({
+      message: "Thank You For Subscribing!",
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>{this.state.message}</h1>
+        <button
+          onClick={() => {
+            this.changeMessage();
+          }}
+        >
+          Subscribe
+        </button>
+      </div>
+    );
+  }
+}
+
+export default Message;
+```
+
+* States are nothing but objects that are priviately maintained within the components
+* These states are mutable or can be changed after being assigned unlike properties
+
+## 11. State & The setState Method
+
+* To help us understand the **dos and don'ts** of useStates, we will be making a counter component
+* We will make a new component called `Counter.tsx`
+* React snippets allows us to type `rce` and make a react class component
+* If we try to change the value of the state directly without using the useState method, the object value updates however the page is not reloaded
+  * This is why we should never modify the state directly
+
+```tsx
+    this.setState(
+      {
+        count: this.state.count + 1,
+      },
+      () => {
+        console.log(`Callback value`, this.state.count);
+      }
+    );
+
+    console.log(this.state.count);
+  }
+```
+
+* There is one detail to observe with setState, in the browser we can see when we increment, the value is 1, however in the console the value is 0
+  * The console is 1 less than the log
+  * This is because the calls are asynchronous, this means `console.log` gets called before the state is actually set
+  * Occassionally we want to run code when the state has been set, to do this we can pass a callback function to the callback parameter for the `setState` method
+  * So the `setState` method has two parameters:
+    * The `data` / assignment of the function
+    * The `callbackmethod` of the function
+
+* Whenever you need to run code after the value has been changed, don't put it in the code after the setState method, instead put it in a **callback method**
+* Next scenario, if we try to use the current state to calculate the new state value, the code works as expected with no problems, this is because the current scenario is pretty simple
+  * What happens if we make this more complicated?
+  * If we make a new function called increment5 and call the increment method 5 times, what happens?
+    * We get 5 0s with the final value being output of 1
+    * This is because the property is not updated so it does the same operator multiple times
+    * React usually groups multiple setstate calls for better performance
+    * So in this case, it does all of them in one go and the updated value does not carry over
+* A solution to this is pass the function as an argument, instead of passing in an object
+```tsx
+    this.setState((prevState) => ({
+      count: prevState.count + 1,
+    }));
+```
+* This will send it individually
+* The console.log however is synchronous and will provide 0s
+* If we need to update the state based on the previous state and it gets complicated pass the previous state as an object
+* The second parameter to this method is the props object as well
+
+### Conclusions
+
+* Always make use of setState and never modify the state directly
+* The code has to be executed after the state has been updated? Place that code in a call back method
+* When you have to update the state based on the previous state, pass the in the function as an argument instead of a regular object.
