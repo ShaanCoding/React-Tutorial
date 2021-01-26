@@ -188,3 +188,181 @@ export const Greet = () => ();
 ```tsx
 import {Greet} from './Components/Greet.tsx'
 ```
+
+# 6. Class Components
+
+* Class components are like ES6 classes
+* Similar to Components, they also take props as an input and return html
+* Additionally these can also contain a private internal state, i.e contain some information that is private to this UI and allows it to contain some private state to relay to the user interface
+* We will now make the same greet component but now as a class component
+* When we make a class component, unlike functional components we need two imports
+  
+```tsx
+import React, { Component } from "react";
+
+class Welcome extends Component {
+  render() {
+    return <h1>Hello World</h1>;
+  }
+}
+
+export default Welcome;
+```
+
+* This works like a normal functional component, instead of using a function we instead return a Welcome class which **extends component**.
+* This additionally needs the interface `render()` implemented which returns the html
+
+### Class Components vs Functional Components
+
+#### Functional
+
+* Functional components are simple functions which takes in props and returns a declaration
+* We should try using a functional component as much as possible (if possible to do functional compared to class components choose functional)
+* The benefit is we have the absence of the `this` keyword
+* Additionally we are forced of doing a solution without using state, state whilst a good advanced concept is hard for beginners
+* Functional components are mainly responsible for the UI
+* This is why functional components are called Stateless / Dumb / Presentational components
+
+#### Class Components
+
+* These are more feature rich
+* They maintain their own private data, ccalled states
+* They can facilitate complex UI logic
+* These provide a thing called **lifecycle hooks**
+* These components are also called Stateful / Smart / Container
+
+## 7. Hook Updates
+
+* This cool new feature which updated contradicts what we learnt about functional vs state components
+* We mentioned that class components have the benefit of a thing called state / lifecycle hosts, we also mentioned functional components as stateless components.
+* We now have a thing called hooks, which are a new feature that lets you use state and other react features without using a class
+
+## 8. JSX
+
+* JSX / TSX is a word going to be told a lot in the word of react
+* Javascript XML (JSX) is an extension to the JavaScript language syntax.
+* This allows us to write XML-like code for elements and components
+* JSX has tags and have a tag name, attributes and children
+* Whilst it isn't a necessitiy to code a react tutorial, JSX makes our code simpler and elegant
+* JSX ultimately transpiles into pure JS which is understood by browsers
+
+* We will now show you a react component coded in JSX and one made without JSX
+
+### Hello.tsx
+
+```tsx
+import React from 'react'
+
+const Hello = () => {
+    return (
+        <div>
+            <h1>Hello Shaan</h1>
+        </div>
+    );
+}
+
+export default Hello;
+```
+
+### Hello.ts
+
+```ts
+import React from 'react'
+
+const Hello = () => {
+    return React.createElement('div', null, React.createElement('h1', null, 'Hello Shaan'));
+};
+
+export default Hello;
+```
+
+* As we can see this is a lot more annoying
+* React.createElement renders it, we use div, null the second term and then the thing being displayed
+* The null / second one is the key-value pair, we get id="hello" if we replace null with hello
+  ```ts
+  {id: 'Hello', className: 'World'}
+  ```
+
+### JSX Differences
+
+* Class -> className
+* for -> htmlFor
+* camelCase property naming conventions
+  * onclick -> onClick
+  * tabindex -> tabIndex
+
+## 9. Props
+
+* In the video about components, we said components are reusable
+* For example lets say we need to reuse the greet component, we just have to remention the greet tab component another time
+* If we wanted to make this component more generic, we need to make a way to allow the component to take an argument to display a different name
+
+* This is where react properties or props come into play, it also allows the component to be dynamic
+  * Our intention is to parse a name in the react component and display that name in the browser
+  * To specify a name property to the prop we add an attribute
+```tsx
+<GreetProp name = "John Doe"/>
+```
+
+```tsx
+import React from "react";
+
+let WelcomeProp: React.FC<{ name: string }> = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h1>Hello {props.name}</h1>
+    </div>
+  );
+};
+
+export default WelcomeProp;
+```
+
+* As we can see when we print props we see it returns an object which contains props.name as the name, by adding the :React.FC we just explicitly type it in react
+
+* Additionally react in TSX typically evaluates all words as text unless we use curly braces, which flips the code from html to JS
+
+* Sometimes it also possible we don't have an idea of what data will be rendered in, we can do this by putting the data inside of the open and closing tags of the object and retriving the inside data via the props.children
+
+```tsx
+<GreetProp name="Hero man">
+    <p>This is children prop</p>
+</GreetProp>
+```
+
+```tsx
+import React from "react";
+
+let WelcomeProp: React.FC<{ name: string }> = (props) => {
+  console.log(props);
+  return (
+    <div>
+      <h1>Hello {props.name}</h1>
+      {props.children}
+    </div>
+  );
+};
+
+export default WelcomeProp;
+```
+
+* Also be aware that TSX can only return a single parent element, so it needs to be wrapped
+
+* Now we will repeat the same thing using a class component
+
+```tsx
+import React, { Component} from 'react'
+
+class Welcome extends Component {
+    render() {
+        return <h1>Welcome {this.props.name}</h1>
+    }
+}
+
+export default Welcome
+```
+
+* Basically to access the props component on a class component we need to use the `this` keyword
+
+* There is one significant thing about props however, **props are immutable i.e they cannot be changed again, they cannot be changed they are read only**
