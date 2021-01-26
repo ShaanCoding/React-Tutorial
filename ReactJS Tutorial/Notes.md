@@ -587,3 +587,114 @@ const {state1, state2} = this.state;
 
 * We do the same thing, but we have to be mindful about the `this` keyword
 
+## 14. Binding Event Handlers
+
+* In this video we will learn how to bind components to event handlers
+* The reason we bind event handlers in react is purely the way the `this` keyword works in JavaScript not because of react
+  * It is good to research how the `this` keyword works in JavaScript
+* In this video we want to change the message of the component state on button click
+
+### EventBinding
+
+* First create a new file called `ReactBind.tsx`
+* Make this a class component
+* Now make a button for it
+* Now add a state property and bind it to the user interface, we will make this variable called `Greet` with default value `Hello` and make it change to `Goodbye` when clicked
+* If we just add a `setState` function inside of the button the event breaks, we get an error saying we cannot read property of undefined
+* If we log the `this` keyword inside the **event handler** it is undefined
+  * This is a specific weird behavior of javascript
+* **this** keyword is usually undefined in an event handler, and this is why event binding is necessary in react class components
+
+### How to bind event handlers in React
+
+* There are multiple ways to do it in React, in this video we will go through all of them
+  * The first method is to use the `bind` keyword and bind the handler to the render method:
+    * Although this works perfectly fine every update to the state will cause the component to re-render, which will generate a new event handler on each render
+    * Even though not severe in small applications this can become laggy for nested children components
+  
+```tsx
+        <button onClick={this.clickHandler.bind(this)}>Click Me!</button>
+```
+  * The second approach is to use arrow functions in the render method:
+    * Also note we are calling this as a function and returning that value, which is why parenthesis is required in this approach
+    * Similar to the first approach, this has performance implications in some scenarios
+  
+```tsx
+        <button onClick={() => this.clickHandler()>Click</button>
+```
+ 
+  * The third approach, which is normally used in most cases, and is also used in the official react documentation. This deals with binding the event handler in the constructor opposed to the render method
+    * Because the binding happens once in the constructor, this is better than having it in the render method
+
+```tsx
+  constructor(props) {
+    super(props);
+    this.clickHandler = this.clickHandler.bind(this);
+}
+```
+
+  * The final approach is to use an arrow function as a class property
+  * 
+```tsx
+  clickHandler = () => {
+    this.setState({
+      message: "Goodbye",
+    });
+  };
+  ```
+
+### Summary
+
+* The first approach is poor for performance implications
+* The second approach is probably the most easy way, involving parameters, this is viable if we don't require rendering sub-items
+* React documentation supports approach number 3 or approach number 4
+* Approach number 4 is most likely best practice
+
+## 15. Methods As Props
+
+* In the earlier videos we saw how a parent component can pass down props to its children components
+* We can pass it down via props to the children components
+* What if the child component wants to communicate with the parent component?
+  * Strangely we still use props
+  * This time we however use a reference to a method as props to the child component
+
+### Doing This
+
+* Make a new component called `ParentComponent.tsx`
+* This will contain a `constructor` which contains a `state` as well as a `eventhandler` called `greetparent` which is binded in the constructor
+* We will also make another sub-component called `ChildComponent.tsx`
+* What we want to occur is when we click the `button` in the child component, we want to execute a function in the `parent component`
+* We do this by passing a prop to the child class as a handler
+
+```tsx
+        <ChildComponent greetHandler={this.greetParent}/>
+```
+
+```tsx
+import React from "react";
+
+let ChildComponent: React.FC<{ greetHandler: () => void }> = (props) => {
+  return <button onClick={props.greetHandler}>Greet Parent</button>;
+};
+
+export default ChildComponent;
+```
+
+* We have sucessfully called a method from the parent component from the child component by calling it from props method
+
+### Passing A Parameter When Calling A Method As A Child Component
+
+* This is where an arrow function in the parameter becomes very useful
+* Arrow functions are the simplest way to do this
+* Lets convert the `onClick` handler to an arrow function
+```tsx
+<button onClick={() => props.greetHandler('child')}>Button</button>
+```
+
+* Now in greetParent we will now add a parameter called childname
+
+```tsx
+greetParent(childName) {
+  console.log(`Hello ${childName}`);
+}
+```

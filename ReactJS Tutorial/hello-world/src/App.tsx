@@ -13,6 +13,9 @@ import GreetDestructured from "./Components/DestructuringGreet";
 import FunctionClick from "./Components/FunctionClick";
 import ClassClick from "./Components/ClassClick";
 
+import ReactBind from "./Components/ReactBind";
+import ParentComponent from "./Components/ParentComponent";
+
 function App() {
   return (
     <div className="App">
@@ -26,8 +29,12 @@ function App() {
 
       {/* <GreetDestructured name="Shaan" heroName="batman" /> Tutorial 12 */}
 
-      <FunctionClick />
-      <ClassClick/>
+      {/* <FunctionClick />
+      <ClassClick/> */}
+      {/* Tutorial 13 */}
+
+      {/* <ReactBind /> */}
+      <ParentComponent />
     </div>
   );
 }
