@@ -498,3 +498,92 @@ export default Message;
 * Always make use of setState and never modify the state directly
 * The code has to be executed after the state has been updated? Place that code in a call back method
 * When you have to update the state based on the previous state, pass the in the function as an argument instead of a regular object.
+
+## 12. Destructuring Props & State In React
+
+* Destructuring is a ES6 feature which makes it possible to unpack values in arrays or properties into objects into distinct variables
+* This in react improves code readability
+
+### Functional Components
+
+* Lets start with functional components, earlier in the series we made a functional component called `Greet`
+  * We made a property name and hero name via props
+  * There are two ways of destructuing a class component:
+    * We can destructure it in a functional component via the function parameter itself
+```tsx
+  import React from "react";
+
+const GreetDestructured = ({ name, heroName }) => {
+  return (
+    <div>
+      <h1>
+        Hello {name} aka {heroName}
+      </h1>
+    </div>
+  );
+};
+
+export default GreetDestructured;
+```
+
+  * Alternatively we can destructure it inside of the body
+```tsx
+const GreetDestructured: React.FC<{ name: string; heroName: string }> = (
+  props
+) => {
+  const { name, heroName } = props;
+```
+
+### Class Components
+
+* We will now see how to do this for class components
+* In class components we typically destructure elements inside of the render method
+```tsx
+class DestructuringWelcome extends Component<{
+  name: string;
+  heroName: string;
+}> {
+  render() {
+    const { name, heroName } = this.props;
+    return <div></div>;
+  }
+}
+```
+* To destructure states in class components we do
+
+```tsx
+const {state1, state2} = this.state;
+```
+
+## 13. Event Handling
+
+* Any web application we make typically has user interaction
+* When the user interacts with our applications events are fired, examples include:
+  * Mouseclick
+  * Mouse over
+  * Key press
+  * Change event
+  * And so on
+* The application must handle these events and execute the following code
+* In this application we will be focusing on the click event, but this works with other events as well
+
+### Starting With Functional Components
+
+* Make a new file called `FunctionClick.tsx`
+* When the user clicks the button, the clickevent button is fired
+* Our goal is to capture that event and execute some basic code
+* React events are named using **camelCase** rather than lowercase
+* JSX passes the function as the event handler, rather than string
+* If we then make a function called `ButtonClicked` and then set it to `onClick` we will run it
+
+### Common Mistakes With Events
+
+* We passed the function as the event handler with the **absence of parenthesis** if we run it without the parenthesis it is a **function** and not a **function call**
+  * This means it will run the code instead of being an event
+* This scenario becomes even worse with class components as it will rerender the component and cause an infinite loop
+* This is a function, not a function call
+
+### Starting With Class Components
+
+* We do the same thing, but we have to be mindful about the `this` keyword
+

@@ -9,6 +9,9 @@ import Welcome from "./Components/GreetClassComponent";
 
 import Message from "./Components/Message";
 import Counter from "./Components/Counter";
+import GreetDestructured from "./Components/DestructuringGreet";
+import FunctionClick from "./Components/FunctionClick";
+import ClassClick from "./Components/ClassClick";
 
 function App() {
   return (
@@ -19,7 +22,12 @@ function App() {
       {/* <GreetProps name="John Doe" /> Tutorial 9 */}
 
       {/* <Message /> Tutorial 10 */}
-      <Counter/>
+      {/* <Counter/> */}
+
+      {/* <GreetDestructured name="Shaan" heroName="batman" /> Tutorial 12 */}
+
+      <FunctionClick />
+      <ClassClick/>
     </div>
   );
 }
