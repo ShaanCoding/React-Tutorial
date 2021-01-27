@@ -31,8 +31,8 @@ let NameList = () => {
   //     </h2>
   //   ));
 
-  const personList = persons.map((person) => (
-    <Person person={person} key={person.id} />
+  const personList = persons.map((person, index) => (
+    <Person person={person} key={index} />
   ));
 
   return (
@@ -42,7 +42,7 @@ let NameList = () => {
       ))} */}
 
       {/* {personList} */}
-      {persons}
+      {personList}
     </div>
   );
 };

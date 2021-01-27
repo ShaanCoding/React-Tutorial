@@ -866,3 +866,66 @@ export default Person;
 * Key give the element a stable identity
 * Keys help React identify which items have changed, are added or removed
 * Helps in efficient updates of user interfaces
+
+# 19. Index as Key Anti-pattern
+
+* When reading articles or going through react tutorials, we'll often see a lot of examples, where we use the index of the element as the key of the list rendering
+* This is an elegant solution and removes the warning
+* In this video we will show how to use the index as a key to rendering list and the problems that may be faced when rendering in the wrong scenario
+
+* If we render it we get an error, since we don't have a key prop
+* In this case since we don't have an ID that uniquely identifies each value we get this error
+  * We could use name as a key, however if there are two people with the same name, we will get an error as keys MUST be unique
+  * It turns out the arrow functions when parsed, recieves a second parameter which is the index of the arrow function
+  * So we can add a index dynamically
+
+```tsx
+const nameList = names.map((name, index) => <h2 key={index}>)
+```
+
+* A warning is using index as a key can cause some serious issues in some examples
+* An example of this is if we have a website with 4 items; Add New to start, Add new to end, sort by earliest, sort by latest
+  * We have Index
+  * ID (self incrementing)
+  * Item
+  * Created at timestamp
+  * On the list we have the map operator, todo which is the item in iteration and key as the index
+  * Back in the UI on the first item
+
+![picture 1](../images/ae9530122d9f46bba57515baaa7319d35caccfa43e810050b0c6fe23a5b1754d.png)  
+
+* If we add to the end of the list it works normally
+* If we add to the start of the list however we get an error:
+  * The index is 0 and the ID is 4 & the timestamp is 4, however it steals the value of the old item
+  * This is because it thinks it the other item and steals the update
+
+![picture 2](../images/44ceb5915fddcc9824d32af9fa2b187de9578c5dfe88e54fd46ad0b530d7312b.png)  
+
+### Index as a Key
+
+* When to use index as a key?
+  1. The items in your list do not have a unique id.
+  2. The list is a static list and will not change.
+  3. The list will never be reordered or filtered
+
+## 20. Styling & CSS Basics
+
+* In this video we will be talking about styling and CSS in React
+* There is a couple of ways to do styling in React
+  1. CSS Stylesheets
+  2. Inline styling
+  3. CSS Modules
+  4. CSS In JS Libraries
+
+### CSS Stylesheets
+
+* In VSC create a new file called `Stylesheet.tsx`
+* Create functional component
+* To specify the css of the component, we will make a new file called `myStyles.css`
+* To be able to use this class we will have to import it
+* We additionally can additionally apply a class based on props or states of the component
+  * I.e lets pass down a prop called primary and set it to false
+  * We can set it conditionally by assigning a string to the classname and conditionally setting its value to the primary or null classname
+* We can change the classname to string interval using backticks
+* Now we can have an XL font and have conditional orange
+* 

@@ -17,6 +17,7 @@ import ReactBind from "./Components/ReactBind";
 import ParentComponent from "./Components/ParentComponent";
 import UserGreeting from "./Components/UserGreeting";
 import NameList from "./Components/NameList";
+import Stylesheet from "./Components/Stylesheet";
 
 function App() {
   return (
@@ -40,7 +41,10 @@ function App() {
       {/* <ParentComponent /> 15 */}
 
       {/* <UserGreeting /> 16 */}
-      <NameList />
+
+      {/* <NameList /> 19 */}
+
+      <Stylesheet primary={false} />
     </div>
   );
 }
