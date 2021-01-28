@@ -1056,3 +1056,113 @@ event.preventDefault();
   * and have the body contain the onsubmit event
   * Note: type="submit" allows the user to submit by pressing enter key
 
+## 21. Component Lifecycle Methods
+
+* When we create a react component it goes through several parts in its lifecycle
+* React provides several methods to use during several stages of its lifecycle
+
+* In this video we will talk about the methods available on a class component during a class component
+  * useEffect hook partly relates to the lifecycle hook
+  * But for now our focus is for lifecycle methods on a class components
+
+* We can describe lifecycle methods in 4 stages:
+  * Mounting: When an instance of a component is being created an inserted into the DOM
+  * Updating: When a component is being re-rendered as a result to changes to either its props or state
+  * Unmounting: When a component is removed from the DOM
+  * Error Handling: When there is an error during the rendering, in a lifecycle method, or in the constructor of any child component
+
+* During the mounting phase we have 4 methods:
+  * constructor
+  * static getDerivedStateFromProps
+  * render
+  * componentDidMount
+
+* During the updating phase we have 5 methods:
+  * static getDerivedStateFromProps
+  * shouldComponentUpdate
+  * render
+  * getSnapshotBeforeUpdate
+  * componentDidUpdate
+
+* During unmounting we have 1 method:
+  * componentWillUnmount
+
+* During the error handling phase we have 2 methods:
+  * static getDerivedStateFromError
+  * componentDidCatch
+
+## 23. Component Mounting Lifecycle Methods
+
+### Mounting Lifecycle Methods
+
+![picture 1](../images/83b39ad23663b28c411951584da4e788f0ee03bc4a668b1ebd7c2e24d0d8d3d5.png)  
+
+* This is a method when a instance of a component is being created an inserted into the DOM
+* We will be going through them by the order of them being called
+  * constructor(props)
+    * A special function that will get called whenever a new component is created
+    * This is good for:
+      * Initalizing state
+      * Binding the event handlers
+    * What not to do:
+      * Do not vcause side effects: Ex: HTTP requests
+    * We need to call super(props)
+    * This is the only place where we should directly overwrite this.state location
+  * static getDerivedStateFromProps(props, state)
+    * this is a rarely use lifecycle method
+    * This is used when the state of a component depends in props over time
+    * If this occurs, we then set the state
+    * This is a static method so we can't call the state
+    * instead we return a object which is the new component
+    * Again don't call side effects
+  * render()
+    * This is the only required method in a class component
+    * This reads the this.props and this.state method and returns the JSX
+    * This is a pure function, for a given state and props it should render the same UI
+    * Do not change state or interact with DOM or make ajax calls
+    * Children component lifecycle methods are also executed within it
+  * componentDidMount()
+    * This is the final method and is called only once in the lifecycle of the component, it is called immediately after all its children components have been rendered to the DOM
+    * This is the best place to do side effects: I.e interact with the DOM or perform ajax calls to load data
+    
+### Practical Application
+
+* Create a new file called `LifeCycleA.tsx`
+
+```tsx
+import React, { Component } from "react";
+
+class LifeCycleA extends Component<{}, { name: string }> {
+  constructor(props: {}) {
+    super(props);
+
+    this.state = {
+      name: "Shaan",
+    };
+    console.log("Lifecycle A constructor");
+  }
+
+  static getDerivedStateFromProps(props: {}, state: { name: string }) {
+    console.log("LifeCycle A getDerivedStateFromProps");
+    return null;
+  }
+
+  componentDidMount() {
+    console.log("LifeCycleA didMount");
+  }
+
+  render() {
+    console.log("LifeCycle A render");
+    return <div>Lifecycle A</div>;
+  }
+}
+
+export default LifeCycleA;
+```
+
+* We can see the order of execution as follows:
+  * constructor
+  * getDerviedStateFromProps
+  * render
+  * componentDidMount
+
