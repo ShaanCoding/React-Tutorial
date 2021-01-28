@@ -928,4 +928,131 @@ const nameList = names.map((name, index) => <h2 key={index}>)
   * We can set it conditionally by assigning a string to the classname and conditionally setting its value to the primary or null classname
 * We can change the classname to string interval using backticks
 * Now we can have an XL font and have conditional orange
-* 
+
+### Inline JS
+
+* In VSC create a new file called `Inline.tsx`
+* Create a functional component
+* Create a heading (h1) and style this heading
+* In react inline styles are **NOT** specified by a string, instead it is represents by an object by its camelCase styling of the object which value is the string
+
+```tsx
+import React from "react";
+
+const heading = {
+  fontSize: "72px",
+  color: "blue",
+};
+
+const Inline: React.FC<{}> = (props) => {
+  return (
+    <div>
+      <h1 style={heading}>Inline</h1>
+    </div>
+  );
+};
+
+export default Inline;
+```
+
+### CSS Modules
+
+* CSS module features is available with react version 2 or higher
+* Now there is a file naming convention for react apps
+* They must be suffixed by `.modules.css
+
+```tsx
+import './appStyles.css'
+import styles from './appStyles.module.css'
+
+<h1 className='error'>Hi</h1>
+<h1 className={styles.success}>Hi</h1>
+```
+
+* A benefit of using modules.css is because they are locally scoped by default
+* modules.css cannot be used in a children component unlike .css
+* This prevents accidental imports
+
+## 21. Basics of Form Handling
+
+* In this video we will talk about the basics of walking in forms in React
+* We will see how to capture input from input tag, text area tag & select tag and have that data available for fourm submissions
+
+### Controlled components
+
+* In regular html these fourm components are responsible on their own to handle user input and update respective values
+* In react we want them to control the fourm elements instead
+* Elements which handle themselves through react are called controlled components
+
+* Consider an input element:
+```tsx
+<input type='text' value={} onChange={}>
+```
+* How do we deal with values that change within a component? useState * setState
+* we additionally have an event occured when the onChange occurs 
+* This leads us to making this
+
+```tsx
+this.state = {
+  email: ''
+}
+
+this.changeEmailHandler = (e) => {
+  this.setState({email: event.target.value});
+}
+
+<input type='text' value={this.state.email} onChange={this.changeEmailHandler}/>
+```
+
+### Implementation
+
+* We will make a new file called `Form.tsx`
+* We will make this a react class component
+* We will make this a form with a label and input
+  * Now we will make this a controlled component
+  * Use the snippet `rconst`
+
+* Note for react class components, the first property is props, the second is state and we need to specify state
+
+```tsx
+class Form extends React.Component<null, { username?: string }> {
+```
+
+* Now lets try to make a controlled component for a text area as well as a select tag
+  * Add the element html
+  * Assign the value
+  * Assign an onChange handler
+
+* Select work like this in html btw
+
+```html
+         <select>
+            <option value="react">React</option>
+            <option value="angular">Angular</option>
+            <option value="vue">Vue</option>
+          </select>
+```
+
+* We can see if we add a button and we press it the page will refresh
+* Right now the fourm has the default html fourm behaviour of browsing
+* A common solution is to have a JS function to handle the submit of the fourm
+  * This button will also have access to the data on submit
+  * We can add a handler on the fourm tag
+
+```html
+<form onSubmit={this.handleSubmit}>
+```
+
+* When we dismiss the result however, the page refreshes and wipes the data
+* To avoid this we simply add an event.preventdefault function
+
+```tsx
+event.preventDefault();
+```
+
+* Now suppose you don't have a fourm you can listen to an onsubmit tag
+  * You can create a button
+  * Can create an onlcick event
+  * and have the body contain the onsubmit event
+  * Note: type="submit" allows the user to submit by pressing enter key
+

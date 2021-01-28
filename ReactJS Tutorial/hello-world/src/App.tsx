@@ -19,6 +19,10 @@ import UserGreeting from "./Components/UserGreeting";
 import NameList from "./Components/NameList";
 import Stylesheet from "./Components/Stylesheet";
 
+// import "./Components/appStyles.css";
+// import styles from "./Components/appStyles.modules.css";
+import Form from "./Components/Form";
+
 function App() {
   return (
     <div className="App">
@@ -44,7 +48,8 @@ function App() {
 
       {/* <NameList /> 19 */}
 
-      <Stylesheet primary={false} />
+      {/* <Stylesheet primary={false} /> 20 */}
+      <Form />
     </div>
   );
 }
