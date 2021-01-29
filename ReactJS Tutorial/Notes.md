@@ -1166,3 +1166,63 @@ export default LifeCycleA;
   * render
   * componentDidMount
 
+## 24. Components Updating Lifecycle Methods
+
+### Updating Lifecycle Methods
+
+* We will be exploring updating lifecycle methods:
+  * This is methods that are called when the component is being re-rendered because of changes of either the props or state
+  * We will be going through them by the state they are invoked
+  * There is a total of 5 methods, however 3 are rarely used
+
+* static getDerivedStateFromProps(props, state)
+  * method is called every time a component is re-rendered
+  * Method is used when the state depends on the props of the method
+  * We should not cause any side effects within this prop
+  * This is one of the more rarely used methods in the updating phase
+
+* shouldComponentUpdate(nextProps, nextState)
+  * This method dictates if the component should re-render or not
+  * By default a component will update whenever the props or state changes, this method prevents this default behaviour by returning false
+  * We can compare the current to next props or state to evaluate true or false
+  * This is used for performance optimization
+  * Do not use side effects within this
+  * This is a rarely used function
+
+* render()
+  * This is the only required method
+  * This reads props & state and returns JSX
+  * Do not change state or interact with DOM
+
+* getSnapshotBeforeUpdate(prevProps, prevState)
+  * This is called right before the changes from the virtual DOM are to be reflected to the DOM
+  * This is also another rarely used position
+  * This captures some information from the DOM; I.e read a scroll-position through the DOM and after the update continue to calculate the scroll position
+  * This method either returns null or a value. The return valued will be pased as a third parameter into the next method
+
+* componentDidUpdate(prevProps, prevState, snapshot)
+  * This method is called after the render is finished in the re-render cycle
+  * We can be sure that the component and the sub-components have properly rendered
+  * This method is **guaranteed to be called only once in each recycle**
+  * This mean we can cause a side effect in this method
+
+### Lets View Order Of Execution
+
+* Lets add the three functions
+* Then to update the state, lets use a button click
+  * Update the JSX, add a button tag and onClick the handler will change the state
+
+* Before we wind out we should discuss the unmounting phase and error handling method
+
+* Unmounting phase method
+  * componentWillUnmount()
+    * Method is invoked immediately before a component is unmounted and destroyed
+    * In this method we can do clean up tasks: cancelling any network requests, remove event handlers, cancelling any subscriptions and invalidate timers
+    * Do not call the setState method (as it's redundant as the element will never be reloaded)
+
+* Error handling phase methods:
+  * static getDerivedStateFromError(error)
+  * componentDidCatch(error, info)
+  * When there is an error during render, in a lifecycle method, or constructor in any of the child components
+
+## 25. Fragments
