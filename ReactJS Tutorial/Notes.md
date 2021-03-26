@@ -1226,3 +1226,23 @@ export default LifeCycleA;
   * When there is an error during render, in a lifecycle method, or constructor in any of the child components
 
 ## 25. Fragments
+
+```ts
+import React, { Component } frpm 'react'
+import './App.css'
+```
+
+- React fragments let you group a bunch of children elements with having to add extra notes to the dom
+
+- In VSC we will create a new file `fragmentDemo.tsx`
+
+- If we make two seperate children, one with h1 and one with paragraph we will have an issue as a react component must have one parent element
+
+- This is where fragments are introduced, we use / enclose them into a single parent element. This is where we can use React Fragments
+  - We use an empty `<>` to contain the data
+  - We can also alternatively use `<React.Fragment>`
+
+- Additionally we can use React fragments in another scenario
+  - Lets create two files called `Table.tsx` and `Columns.tsx`
+  - Table rows cannot have child class however if we make a sub component to contain everything it doesn't work either since it needs to be wrapped and have only one parent element.
+    - A solution to this is to use React.Fragments which acts as a parent class which has nothing associated with it.
